@@ -51,7 +51,11 @@ body {
 }
 
 .note .main {
-  padding: 20px;
+  padding: 0 20px 20px;
+  width: 100%;
+  height: calc(100% - 36px);
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 .note textarea {
