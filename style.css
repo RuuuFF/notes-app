@@ -1,16 +1,70 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;400&display=swap");
 
 * {
   box-sizing: border-box;
 }
 
 body {
-  font-family: 'Roboto', sans-serif;
-  height: 100vh;
-  margin: 0;
-  overflow: hidden;
+  background-color: #7bdaf3;
+  font-family: "Poppins", sans-serif;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 3rem;
+}
+
+.add {
+  background-color: #9ec862;
+  color: #fff;
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  border: none;
+  border-radius: 3px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.note {
+  background-color: #fff;
+  box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.1);
+  margin: 30px 20px;
+  height: 400px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.note .tools {
+  background-color: #9ec862;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.5rem;
+}
+
+.note .tools button {
+  background-color: transparent;
+  color: #fff;
+  font-size: 1rem;
+  margin: 0 0 0 1rem;
+  border: none;
+  cursor: pointer;
+}
+
+.note .main {
+  padding: 20px;
+}
+
+.note textarea {
+  font-family: inherit;
+  font-size: 1.2rem;
+  border: none;
+  outline: none;
+  padding: 20px;
+  height: 100%;
+  width: 100%;
+  resize: none;
+}
+
+.hidden {
+  display: none;
 }
