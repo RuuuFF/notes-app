@@ -55,6 +55,7 @@ function addNewNote(text = '') {
 
   document.body.appendChild(note)
   textArea.focus()
+  note.scrollIntoView()
 }
 
 function updateLS() {
