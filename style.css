@@ -6,6 +6,8 @@
   --note-shadow: rgba(0, 0, 0, 0.1);
   --text-color: #000;
   --green: #9ec862;
+  --scroll-bar-thumb-bg: #ccc;
+  --scroll-bar-thumb-bg-hover: #bbb;
 }
 
 html.dark-theme {
@@ -14,6 +16,8 @@ html.dark-theme {
   --note-shadow: rgba(255, 255, 255, 0.02);
   --text-color: #f1f1f1;
   --green: #71a32a;
+  --scroll-bar-thumb-bg: #333;
+  --scroll-bar-thumb-bg-hover: rgb(43, 42, 42);
 }
 
 * {
@@ -125,6 +129,22 @@ body {
   width: 100%;
   height: calc(100% - 36px);
   overflow: auto;
+}
+
+.note .main::-webkit-scrollbar {
+  width: 8px;
+}
+
+.note .main::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.note .main::-webkit-scrollbar-thumb {
+  background-color: var(--scroll-bar-thumb-bg);
+}
+
+.note .main::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scroll-bar-thumb-bg-hover);
 }
 
 .note textarea {
