@@ -1,3 +1,5 @@
+const html = document.querySelector('html')
+const themeBtn = document.getElementById('toggle-theme')
 const addBtn = document.getElementById('add')
 
 const notes = JSON.parse(localStorage.getItem('notes'))
@@ -61,3 +63,7 @@ function updateLS() {
 
   localStorage.setItem('notes', JSON.stringify(notes))
 }
+
+themeBtn.addEventListener('change', () => {
+  html.classList.toggle('dark-theme')
+})
