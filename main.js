@@ -66,4 +66,10 @@ function updateLS() {
 
 themeBtn.addEventListener('change', () => {
   html.classList.toggle('dark-theme')
+  localStorage.setItem('theme', html.classList.contains('dark-theme') ? 'dark-theme' : '')
 })
+
+if (localStorage.getItem('theme') === 'dark-theme') {
+  html.classList.add(localStorage.getItem('theme'))
+  themeBtn.checked = true
+}
