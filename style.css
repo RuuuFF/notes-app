@@ -10,6 +10,10 @@
   --scroll-bar-thumb-bg-hover: #bbb;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 html.dark-theme {
   --body-bg: #222;
   --note-bg: #444;
