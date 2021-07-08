@@ -148,6 +148,8 @@ body {
 }
 
 .note textarea {
+  background-color: var(--note-bg);
+  color: var(--text-color);
   font-family: inherit;
   font-size: 1.2rem;
   border: none;
