@@ -13,16 +13,70 @@ body {
   padding: 3rem;
 }
 
-.add {
-  background-color: #9ec862;
-  color: #fff;
+.buttons {
   position: fixed;
   top: 1rem;
   right: 1rem;
-  border: none;
+  display: flex;
+  gap: 15px;
+}
+
+.add,
+#toggle-theme + label {
+  background-color: #9ec862;
   border-radius: 3px;
-  padding: 0.5rem 1rem;
   cursor: pointer;
+}
+
+.add {
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+}
+
+#toggle-theme {
+  visibility: hidden;
+  display: none;
+}
+
+#toggle-theme + label {
+  width: 80px;
+  height: 100%;
+  display: inline-block;
+  padding: 4px;
+}
+
+#toggle-theme + label .slider {
+  background-color: #fff;
+  width: 50%;
+  height: 100%;
+  margin-left: 0;
+  border-radius: 3px;
+  transition: margin-left 0.35s ease;
+  position: relative;
+}
+
+#toggle-theme:checked + label .slider {
+  margin-left: 50%;
+}
+
+#toggle-theme + label .slider i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+#toggle-theme:not(:checked) + label .slider i.fa-sun {
+  color: rgb(250, 207, 16);
+  opacity: 1;
+}
+
+#toggle-theme:checked + label .slider i.fa-moon {
+  color: rgb(71, 71, 71);
+  opacity: 1;
 }
 
 .note {
@@ -54,8 +108,7 @@ body {
   padding: 0 20px 20px;
   width: 100%;
   height: calc(100% - 36px);
-  overflow-x: hidden;
-  overflow-y: scroll;
+  overflow: auto;
 }
 
 .note textarea {
