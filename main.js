@@ -1,78 +1,110 @@
-const html = document.querySelector('html')
-const themeBtn = document.getElementById('toggle-theme')
-const addBtn = document.getElementById('add')
+const DOM = {
+  html: document.querySelector('html'),
+  addNoteBtn: document.getElementById('add'),
+  themeBtn: document.getElementById('toggle-theme'),
 
-const notes = JSON.parse(localStorage.getItem('notes'))
-
-if(notes) {
-  notes.forEach(note => addNewNote(note))
+  changeTheme() {
+    DOM.html.classList.toggle('dark-theme')
+    LocalStorage.saveTheme()
+  }
 }
 
-addBtn.addEventListener('click', () => addNewNote())
+const LocalStorage = {
+  updateNotes() {
+    const notesText = document.querySelectorAll('textarea')
+    const notes = []
+  
+    notesText.forEach(note => notes.push(note.value))
+  
+    localStorage.setItem('notes', JSON.stringify(notes))
+  },
 
-function addNewNote(text = '') {
-  const note = document.createElement('div')
-  note.classList.add('note')
+  loadNotes() {
+    const notes = JSON.parse(localStorage.getItem('notes'))
+    notes ? notes.forEach(note => NotesApp.addNewNote(note)) : ''
+  },
 
-  note.innerHTML = `
-    <div class="tools">
-      <button class="edit">
-        <i class="fas fa-edit"></i>
-      </button>
-      <button class="delete">
-        <i class="fas fa-trash-alt"></i>
-      </button>
-    </div>
+  saveTheme() {
+    localStorage.setItem('theme', DOM.html.classList.contains('dark-theme') ? 'dark-theme' : '')
+  },
 
-    <div class="main ${text ? "" : "hidden"}"></div>
-    <textarea class="${text ? "hidden" : ""}"></textarea>
-  `
+  loadTheme() {
+    if (localStorage.getItem('theme')) {
+      DOM.html.classList.add(localStorage.getItem('theme'))
+      DOM.themeBtn.checked = true
+    }
+  }
+}
 
-  const editBtn = note.querySelector('.edit')
-  const deleteBtn = note.querySelector('.delete')
-  const main = note.querySelector('.main')
-  const textArea = note.querySelector('textarea')
+const NotesApp = {
+  createNote(text) {
+    const note = document.createElement('div')
+    note.classList.add('note')
 
-  textArea.value = text
-  main.innerHTML = marked(text)
+    note.innerHTML = `
+      <div class="tools">
+        <button class="edit">
+          <i class="fas fa-edit"></i>
+        </button>
+        <button class="delete">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      </div>
 
-  deleteBtn.addEventListener('click', () => {
+      <div class="main ${text ? "" : "hidden"}"></div>
+      <textarea class="${text ? "hidden" : ""}"></textarea>
+    `
+    return note
+  },
+
+  getElementsOnNote(note) {
+    const editBtn = note.querySelector('.edit')
+    const deleteBtn = note.querySelector('.delete')
+    const main = note.querySelector('.main')
+    const textArea = note.querySelector('textarea')
+
+    return { editBtn, deleteBtn, main, textArea }
+  },
+
+  deleteNote(note) {
     note.remove()
-    updateLS()
-  })
+    LocalStorage.updateNotes()
+  },
 
-  editBtn.addEventListener('click', () => {
+  editNote(main, textArea) {
     main.classList.toggle('hidden')
     textArea.classList.toggle('hidden')
     textArea.focus()
-  })
+  },
 
-  textArea.addEventListener('input', (e) => {
-    const { value } = e.target
+  updateMainContent(event, main) {
+    const { value } = event.target
     main.innerHTML = marked(value)
-    updateLS()
-  })
+    LocalStorage.updateNotes()
+  },
 
-  document.body.appendChild(note)
-  textArea.focus()
-  note.scrollIntoView()
+  addNewNote(text = '') {
+    const note = NotesApp.createNote(text)
+    const { editBtn, deleteBtn, main, textArea } = NotesApp.getElementsOnNote(note)
+
+    textArea.value = text
+    main.innerHTML = marked(text)
+
+    deleteBtn.addEventListener('click', () => NotesApp.deleteNote(note))
+    editBtn.addEventListener('click', () => NotesApp.editNote(main, textArea))
+    textArea.addEventListener('input', event => NotesApp.updateMainContent(event, main))
+
+    document.body.appendChild(note)
+    textArea.focus()
+    note.scrollIntoView()
+  },
+
+  start() {
+    DOM.addNoteBtn.addEventListener('click', () =>  NotesApp.addNewNote())
+    DOM.themeBtn.addEventListener('change', () => DOM.changeTheme())
+    LocalStorage.loadNotes()
+    LocalStorage.loadTheme()
+  }
 }
 
-function updateLS() {
-  const notesText = document.querySelectorAll('textarea')
-  const notes = []
-
-  notesText.forEach(note => notes.push(note.value))
-
-  localStorage.setItem('notes', JSON.stringify(notes))
-}
-
-themeBtn.addEventListener('change', () => {
-  html.classList.toggle('dark-theme')
-  localStorage.setItem('theme', html.classList.contains('dark-theme') ? 'dark-theme' : '')
-})
-
-if (localStorage.getItem('theme') === 'dark-theme') {
-  html.classList.add(localStorage.getItem('theme'))
-  themeBtn.checked = true
-}
+NotesApp.start()
