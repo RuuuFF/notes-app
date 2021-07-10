@@ -21,7 +21,7 @@ const LocalStorage = {
 
   loadNotes() {
     const notes = JSON.parse(localStorage.getItem('notes'))
-    notes ? notes.forEach(note => NotesApp.addNewNote(note)) : ''
+    notes ? notes.forEach(note => NotesApp.addNewNote(note, false)) : ''
   },
 
   saveTheme() {
@@ -83,7 +83,7 @@ const NotesApp = {
     LocalStorage.updateNotes()
   },
 
-  addNewNote(text = '') {
+  addNewNote(text, focus) {
     const note = NotesApp.createNote(text)
     const { editBtn, deleteBtn, main, textArea } = NotesApp.getElementsOnNote(note)
 
@@ -95,12 +95,15 @@ const NotesApp = {
     textArea.addEventListener('input', event => NotesApp.updateMainContent(event, main))
 
     document.body.appendChild(note)
-    textArea.focus()
-    note.scrollIntoView()
+
+    if (focus) {
+      textArea.focus()
+      note.scrollIntoView()
+    }
   },
 
   start() {
-    DOM.addNoteBtn.addEventListener('click', () =>  NotesApp.addNewNote())
+    DOM.addNoteBtn.addEventListener('click', () => NotesApp.addNewNote('', true))
     DOM.themeBtn.addEventListener('change', () => DOM.changeTheme())
     LocalStorage.loadNotes()
     LocalStorage.loadTheme()
