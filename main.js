@@ -14,7 +14,7 @@ const LocalStorage = {
     const notesText = document.querySelectorAll('textarea')
     const notes = []
   
-    notesText.forEach(note => note.value !== '' ? notes.push(note.value) : '')
+    notesText.forEach(note => note.value.trim() !== '' ? notes.push(note.value) : '')
   
     localStorage.setItem('notes', JSON.stringify(notes))
   },
